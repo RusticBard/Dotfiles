@@ -28,7 +28,7 @@ return {
 				auto_open = {
 					enabled = true,
 				},
-				view = "hover",
+				-- view = "hover",
 			},
 			progress = {
 				enabled = true,
@@ -53,12 +53,12 @@ return {
 			notify = {
 				replace = true,
 			},
-			hover = {
-				border = {
-					style = "rounded",
-				},
-				position = { row = 2, col = 2 }, -- Optional: subtle offset from cursor
-			},
+			-- hover = {
+			-- 	border = {
+			-- 		style = "rounded",
+			-- 	},
+			-- 	position = { row = 2, col = 2 }, -- Optional: subtle offset from cursor
+			-- },
 		},
 		routes = {
 			{
@@ -75,7 +75,7 @@ return {
 			command_palette = false,
 			long_message_to_split = false,
 			inc_rename = false,
-			lsp_doc_border = false,
+			lsp_doc_border = true,
 		},
 		config = function(_, opts)
 			-- 1. Setup Noice with your opts
