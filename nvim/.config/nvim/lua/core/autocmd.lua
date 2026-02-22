@@ -1,6 +1,3 @@
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
@@ -9,7 +6,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- MUST HAVE THIS for Hex colors to work
 vim.opt.termguicolors = true
 
 local function get_theme_color(group, attr)
@@ -33,19 +29,13 @@ local function update_hl()
 
 	local color = mode_colors[mode] or mode_colors["n"]
 
-	-- Define the custom User highlight groups
-	-- User1: The main bar (Text is Dark, Background is Mode Color)
 	vim.api.nvim_set_hl(0, "User1", { fg = normal_bg, bg = color, bold = true })
 
-	-- User2: The Caps (Text is Mode Color, Background is Editor Dark)
 	vim.api.nvim_set_hl(0, "User2", { fg = color, bg = normal_bg })
 
-	-- Force the UI to refresh the statusline immediately
 	vim.cmd("redrawstatus")
 end
 
--- Define the actual statusline string using the User groups
--- %2* = User2 (Caps), %1* = User1 (Body)
 vim.opt.statusline = "%2*%1* %f %m %=%y %p%% %2*"
 
 local statusline_group = vim.api.nvim_create_augroup("ModeStatusLine", { clear = true })

@@ -68,12 +68,6 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 vim.keymap.set("n", "<leader>sl", "<CMD>Lazy<CR>", { desc = "[s]how [l]azy" })
 vim.keymap.set("n", "<leader>sm", "<CMD>Mason<CR>", { desc = "[s]how [m]ason" })
 
--- vim.keymap.set('n', '<leader>rf', function()
---   local current_buf_wd = vim.fn.expand("%:p:h")
---
---   vim.cmd('terminal ' .. current_buf_wd .. '/run.sh')
--- end)
-
 vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
 
 -- Normal Mode: Start the selection
