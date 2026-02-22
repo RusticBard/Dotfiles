@@ -60,6 +60,9 @@ return {
 						width = 0.8,
 					},
 				},
+				colorscheme = {
+					enable_preview = true,
+				},
 			},
 			extensions = {
 				["ui-select"] = {
@@ -111,7 +114,7 @@ return {
 		vim.keymap.set(
 			"n",
 			"<leader>sc",
-			"<cmd>Telescope find_files hidden=true no_ignore=false cwd=~/Dotfiles<CR>",
+			"<cmd>Telescope find_files hidden=true no_ignore=false cwd=~/.dotfiles<CR>",
 			{ desc = "[s]earch [c]onfig" }
 		)
 		vim.keymap.set(
@@ -123,11 +126,11 @@ return {
 		vim.keymap.set("n", "<leader>so", "<cmd>Telescope oldfiles<CR>", { desc = "[s]earch [o]ldfiles" })
 		vim.keymap.set(
 			"n",
-			"<leader>sth",
+			"<leader>shl",
 			"<cmd>Telescope highlights<CR>",
-			{ desc = "[s]earch [t]elescope [h]ighlights" }
+			{ desc = "[s]earch telescope [h]igh[l]ights" }
 		)
-		vim.keymap.set("n", "<leader>st", "<CMD>Telescope colorschemes<CR>", { desc = "[s]how [t]hemes" })
+		vim.keymap.set("n", "<leader>st", "<CMD>Telescope colorscheme<CR>", { desc = "[s]how [t]hemes" })
 		vim.keymap.set("n", "<leader><space>", "<CMD>Telescope buffers<CR>", { desc = "show buffers" })
 	end,
 }
