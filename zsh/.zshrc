@@ -1,3 +1,4 @@
+#
 # Start configuration added by Zim Framework install {{{
 #
 # User configuration sourced by interactive shells
