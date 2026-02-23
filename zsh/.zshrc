@@ -184,3 +184,32 @@ export FZF_CTRL_R_OPTS="
 # Bat
 # ---
 export BAT_THEME="Carbonfox"
+
+fzf-git-selection() {
+  if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    
+    # We use a custom preview command that checks if the file is tracked or not
+    local file=$(git ls-files --others --modified --exclude-standard | fzf \
+      --multi \
+      --height 100% \
+      --preview 'if git ls-files --error-unmatch {} > /dev/null 2>&1; then
+                   git diff --color=always {}
+                 else
+                   cat {}
+                 fi' \
+      --preview-window=right:60%:wrap \
+      --border \
+      --header "Select changed files (Tab to multi-select)")
+
+    if [ -n "$file" ]; then
+      # Join multiple selections with a space
+      LBUFFER+="${(j: :)file} "
+    fi
+    
+    zle reset-prompt
+  fi
+}
+
+zle -N fzf-git-selection
+
+bindkey '^G' fzf-git-selection
