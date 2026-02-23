@@ -89,3 +89,5 @@ end, { desc = "Increment Treesitter scope" })
 vim.keymap.set("x", "<BS>", function()
 	vim.treesitter.incremental_selection.node_decremental()
 end, { desc = "Decrement Treesitter selection" })
+
+vim.keymap.set("n", "<leader>su", "<CMD>Atone toggle<CR>", { desc = "[s]how [a]tone undo tree" })
