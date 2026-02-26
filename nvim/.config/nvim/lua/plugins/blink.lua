@@ -4,6 +4,7 @@ return {
 	dependencies = { "rafamadriz/friendly-snippets" },
 	-- use a release tag to download pre-built binaries
 	version = "1.*",
+	-- build = "cargo build --release",
 	-- AND/OR build from soucce, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
 	-- build = 'cargo build --release',
 	-- If you use nix, you can build from source using latest nightly rust with:
@@ -26,10 +27,13 @@ return {
 		-- See :h blink-cmp-config-keymap for defining your own keymap
 		keymap = {
 			-- recommended, as the default keymap will only show and select the next item
-			["<C-p>"] = { "select_prev", "fallback" },
-			["<C-n>"] = { "select_next", "fallback" },
-			["<C-d>"] = { "scroll_documentation_down", "scroll_signature_down", "fallback" },
-			["<C-u>"] = { "scroll_documentation_up", "scroll_signature_up", "fallback" },
+			["<C-p>"] = { "select_prev" },
+			["<C-n>"] = { "select_next" },
+			["<C-d>"] = { "scroll_documentation_down" },
+			["<C-u>"] = { "scroll_documentation_up" },
+			["<C-f>"] = { "scroll_signature_up" },
+			["<C-b>"] = { "scroll_signature_down" },
+			["<C-k>"] = { "show_signature", "hide_signature" },
 			["<C-space>"] = {
 				function(cmp)
 					cmp.show({ providers = { "snippets" } })
