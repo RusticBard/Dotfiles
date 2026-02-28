@@ -44,3 +44,18 @@ vim.api.nvim_create_autocmd({ "VimEnter", "ModeChanged", "ColorScheme" }, {
 	group = statusline_group,
 	callback = update_hl,
 })
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	pattern = "*",
+	callback = function(event)
+		if vim.bo[event.buf].filetype == "help" then
+			vim.cmd.only()
+			vim.bo[event.buf].buflisted = true
+			vim.bo[event.buf].buftype = ""
+			-- Keep the "help" features (like jumping to tags with Ctrl-])
+			-- even though it's now a 'normal' buffer
+			vim.bo[event.buf].syntax = "help"
+			vim.keymap.set("n", "q", ":bd<CR>", { buffer = event.buf, silent = true })
+		end
+	end,
+})
