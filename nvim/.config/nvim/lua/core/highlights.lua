@@ -1,4 +1,4 @@
-vim.cmd("colorscheme carbonfox")
+-- vim.cmd("colorscheme carbonfox")
 
 local pmenu_color = vim.api.nvim_get_hl(0, { name = "PmenuSel" }).bg
 
@@ -28,3 +28,24 @@ vim.api.nvim_set_hl(0, "WhichKeyDesc", { fg = pmenu_color, bg = "NONE" })
 
 -- how to set NormalFloat to none
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+
+local hl_groups = {
+	-- Link the main backgrounds to the standard Float background
+	TelescopeNormal = "NormalFloat",
+	TelescopePromptNormal = "NormalFloat",
+	TelescopeResultsNormal = "NormalFloat",
+	TelescopePreviewNormal = "NormalFloat",
+	-- Link the borders to the standard Float border
+	TelescopeBorder = "FloatBorder",
+	TelescopePromptBorder = "FloatBorder",
+	TelescopeResultsBorder = "FloatBorder",
+	TelescopePreviewBorder = "FloatBorder",
+
+	NoiceCmdlinePopup = "NormalFloat",
+	NoiceCmdlinePopupBorder = "FloatBorder",
+	NoiceCmdlineIcon = "DiagnosticInfo", -- The (:) icon color
+}
+
+for telescope_group, target_group in pairs(hl_groups) do
+	vim.api.nvim_set_hl(0, telescope_group, { link = target_group })
+end

@@ -37,7 +37,7 @@ require("lazy").setup({
 		-- The backdrop opacity. 0 is fully opaque, 100 is fully transparent.
 		backdrop = 60,
 	},
-	-- install = { colorscheme = { "habamax" } },
+	install = { colorscheme = { "carbonfox" } },
 	-- automatically check for plugin updates
 	checker = { enabled = true },
 })

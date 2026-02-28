@@ -21,9 +21,9 @@ return {
 					},
 				},
 				styles = { -- Style to be applied to different syntax groups
-					comments = "NONE", -- Value is any valid attr-list value `:help attr-list`
+					comments = "italic", -- Value is any valid attr-list value `:help attr-list`
 					conditionals = "NONE",
-					constants = "NONE",
+					constants = "bold",
 					functions = "NONE",
 					keywords = "NONE",
 					numbers = "NONE",
@@ -43,7 +43,16 @@ return {
 			},
 			palettes = {},
 			specs = {},
-			groups = {},
+			groups = {
+				all = {
+					-- WinSeparator is the modern Neovim highlight for split lines
+					WinSeparator = { fg = "palette.bg3" }, -- Change "bg3" to "fg1" for a brighter line
+
+					-- Optional: This makes the line background match your editor background
+					-- so you only see a thin colored line.
+					-- WinSeparator = { fg = "#545c7e", bg = "none" },
+				},
+			},
 		})
 		-- setup must be called before loading
 	end,
