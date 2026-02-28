@@ -1,136 +1,96 @@
 return {
 	"nvim-telescope/telescope.nvim",
-	dependencies = {
-		"nvim-lua/plenary.nvim",
-		{ -- if encountering errors, see telescope-fzf-native readme for installation instructions
-			"nvim-telescope/telescope-fzf-native.nvim",
-
-			-- `build` is used to run some command when the plugin is installed/updated.
-			-- this is only run then, not every time neovim starts up.
-			build = "make",
-
-			-- `cond` is a condition used to determine whether this plugin should be
-			-- installed and loaded.
-			cond = function()
-				return vim.fn.executable("make") == 1
-			end,
-		},
-		{ "nvim-telescope/telescope-ui-select.nvim" },
-
-		-- useful for getting pretty icons, but requires a nerd font.
+	lazy = true,
+	-- Stay lazy!
+	cmd = "Telescope",
+	keys = {
+		{ "<leader>?", "<cmd>Telescope oldfiles<cr>", desc = "[?] Find recently opened files" },
+		{ "<leader><space>", "<cmd>Telescope buffers<cr>", desc = "[ ] Find existing buffers" },
 		{
-			"nvim-tree/nvim-web-devicons",
-			enabled = vim.g.have_nerd_font,
+			"<leader>/",
+			function()
+				require("telescope.builtin").current_buffer_fuzzy_find()
+			end,
+			desc = "[/] Fuzzily search in current buffer",
+		},
+		{ "<leader>sf", "<cmd>Telescope find_files<cr>", desc = "[s]earch [f]iles" },
+		{ "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "[s]earch [h]elp" },
+		{ "<leader>sg", "<cmd>Telescope grep_string<cr>", desc = "[s]earch current [w]ord" },
+		{ "<leader>s.", "<cmd>Telescope live_grep<cr>", desc = "[s]earch by [g]rep" },
+		{ "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "[s]earch [d]iagnostics" },
+		{ "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "[s]earch [k]eymaps" },
+		{
+			"<leader>sc",
+			"<cmd>Telescope find_files hidden=true no_ignore=false cwd=~/.dotfiles<cr>",
+			desc = "[s]earch [c]onfig",
+		},
+		{ "<leader>sw", "<cmd>Telescope find_files cwd=~/Others/Workspace<cr>", desc = "[S]earch [W]orkspace" },
+		{ "<leader>so", "<cmd>Telescope oldfiles<cr>", desc = "[s]earch [o]ldfiles" },
+		{ "<leader>shl", "<cmd>Telescope highlights<cr>", desc = "[s]earch telescope [h]igh[l]ights" },
+		{
+			"<leader>st",
+			function()
+				require("telescope.builtin").colorscheme({ ignore_builtins = true })
+			end,
+			desc = "Telescope colorschemes",
 		},
 	},
-	event = "VimEnter",
-	lazy = false,
-	config = function()
-		require("telescope").setup({
-			defaults = {
-				sorting_strategy = "ascending",
-				layout_config = {
-					prompt_position = "top",
-					horizontal = {
-						height = 0.99,
-						width = 0.99,
-						preview_width = 0.5,
-					},
-				},
-				mappings = {
-					i = {
-						["<esc>"] = require("telescope.actions").close,
-					},
-				},
-			},
-			pickers = {
-				current_buffer_fuzzy_find = {
-					theme = "dropdown",
-					previewer = false,
-					layout_config = {
-						height = 0.9,
-						width = 0.8,
-					},
-				},
-				buffers = {
-					theme = "dropdown",
-					previewer = false,
-					layout_config = {
-						height = 0.8,
-						width = 0.8,
-					},
-				},
-				colorscheme = {
-					enable_preview = true,
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+		"nvim-telescope/telescope-ui-select.nvim",
+		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+	},
+	-- Use 'opts' for your specific data and layout
+	opts = {
+		defaults = {
+			prompt_prefix = "   ",
+			selection_caret = "▶ ",
+			sorting_strategy = "ascending",
+			layout_config = {
+				prompt_position = "top",
+				horizontal = {
+					height = 0.99,
+					width = 0.99,
+					preview_width = 0.5,
 				},
 			},
-			extensions = {
-				["ui-select"] = {
-					require("telescope.themes").get_dropdown(),
-				},
-				media_files = {
-					-- filetypes whitelist
-					-- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-					filetypes = { "png", "webp", "jpg", "jpeg" },
-					find_cmd = "rg", -- find command (defaults to `fd`)
+			mappings = {
+				i = {
+					-- Wrapped in a function so it doesn't load Telescope on startup
+					["<esc>"] = function(...)
+						return require("telescope.actions").close(...)
+					end,
 				},
 			},
-		})
-
-		pcall(require("telescope").load_extension, "fzf")
-		pcall(require("telescope").load_extension, "media_files")
-		pcall(require("telescope").load_extension, "ui-select")
-
-		-- See `:help telescope.builtin`
-		vim.keymap.set(
-			"n",
-			"<leader>?",
-			require("telescope.builtin").oldfiles,
-			{ desc = "[?] Find recently opened files" }
-		)
-		vim.keymap.set(
-			"n",
-			"<leader><space>",
-			require("telescope.builtin").buffers,
-			{ desc = "[ ] Find existing buffers" }
-		)
-		vim.keymap.set("n", "<leader>/", function()
-			-- You can pass additional configuration to telescope to change theme, layout, etc.
-			require("telescope.builtin").current_buffer_fuzzy_find({
-				-- winblend = 10,
-			})
-		end, { desc = "[/] Fuzzily search in current buffer]" })
-		vim.keymap.set("n", "<leader>sf", require("telescope.builtin").find_files, { desc = "[s]earch [f]iles" })
-		vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[s]earch [h]elp" })
-		vim.keymap.set(
-			"n",
-			"<leader>sg",
-			require("telescope.builtin").grep_string,
-			{ desc = "[s]earch current [w]ord" }
-		)
-		vim.keymap.set("n", "<leader>s.", require("telescope.builtin").live_grep, { desc = "[s]earch by [g]rep" })
-		vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[s]earch [d]iagnostics" })
-		vim.keymap.set("n", "<leader>sk", require("telescope.builtin").keymaps, { desc = "[s]earch [k]eymaps" })
-		vim.keymap.set(
-			"n",
-			"<leader>sc",
-			"<cmd>Telescope find_files hidden=true no_ignore=false cwd=~/.dotfiles<CR>",
-			{ desc = "[s]earch [c]onfig" }
-		)
-		vim.keymap.set(
-			"n",
-			"<leader>sw",
-			"<cmd>Telescope find_files cwd=~/Others/Workspace<CR>",
-			{ desc = "[S]earch [W]orkspace" }
-		)
-		vim.keymap.set("n", "<leader>so", "<cmd>Telescope oldfiles<CR>", { desc = "[s]earch [o]ldfiles" })
-		vim.keymap.set(
-			"n",
-			"<leader>shl",
-			"<cmd>Telescope highlights<CR>",
-			{ desc = "[s]earch telescope [h]igh[l]ights" }
-		)
-		vim.keymap.set("n", "<leader>st", "<CMD>Telescope colorscheme<CR>", { desc = "[s]how [t]hemes" })
-		vim.keymap.set("n", "<leader><space>", "<CMD>Telescope buffers<CR>", { desc = "show buffers" })
+		},
+		pickers = {
+			current_buffer_fuzzy_find = {
+				theme = "dropdown",
+				previewer = false,
+				layout_config = { height = 0.9, width = 0.8 },
+			},
+			buffers = {
+				theme = "dropdown",
+				previewer = false,
+				layout_config = { height = 0.8, width = 0.8 },
+			},
+			colorscheme = {
+				enable_preview = true,
+			},
+		},
+		extensions = {
+			["ui-select"] = {
+				require("telescope.themes").get_dropdown({}),
+			},
+		},
+	},
+	-- Keep this 'config' ONLY to run the mechanical load_extension calls.
+	-- Without this, your fzf and ui-select will be installed but disabled.
+	config = function(_, opts)
+		local telescope = require("telescope")
+		telescope.setup(opts)
+		pcall(telescope.load_extension, "fzf")
+		pcall(telescope.load_extension, "ui-select")
 	end,
 }

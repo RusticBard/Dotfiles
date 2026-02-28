@@ -2,6 +2,7 @@
 return {
 	"rose-pine/neovim",
 	name = "rose-pine",
+	lazy = true,
 	opts = {
 		variant = "auto", -- auto, main, moon, or dawn
 		dark_variant = "main", -- main, moon, or dawn
@@ -17,7 +18,7 @@ return {
 		styles = {
 			bold = true,
 			italic = true,
-			transparency = false,
+			transparency = true,
 		},
 
 		groups = {
